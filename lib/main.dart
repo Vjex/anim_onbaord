@@ -1,6 +1,6 @@
-import 'package:anim_onboard/single_screen_data_widget.dart';
+import 'package:anim_onboard/widgets/single_screen_data_widget.dart';
 
-import './animated_onboard.dart';
+import 'animations/animated_onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
       pageController: pageController,
       onFinishedButtonTap: () {
         debugPrint("FINISHED!!");
+        _ShowSnackBar('Last Page Reached.');
       },
       topLeftChild: const Text(
         "Storief",
@@ -94,11 +95,22 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          pageController.animateToPage(2,
-              curve: Curves.easeInBack, duration: const Duration(seconds: 1));
+          pageController.animateToPage(_pages.length - 1,
+              curve: Curves.easeInBack,
+              duration: const Duration(milliseconds: 2));
+          // _ShowSnackBar('Last Page Reached.');
+
           debugPrint('Tapppppp');
         },
       ),
     );
+  }
+
+  //Show SnackBar
+  void _ShowSnackBar(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: Colors.green,
+    ));
   }
 }
