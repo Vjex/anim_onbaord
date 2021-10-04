@@ -1,4 +1,6 @@
-import 'package:animated_onboarding/animated_onboarding.dart';
+import 'package:anim_onboard/single_screen_data_widget.dart';
+
+import './animated_onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -42,45 +44,40 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   PageController pageController = PageController();
-  final _pages = [
-    const OnboardingPage(
-        child: Text("Title1",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
-        color: Color(0xffff1744)),
-    const OnboardingPage(
-        child: Text("Title2",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
-        color: Color(0xffff9100)),
-    const OnboardingPage(
-        child: Text("Title3",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
-        color: Color(0xff00695c)),
-    const OnboardingPage(
-        child: Text("Title4",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
-        color: Color(0xff5c6bc0)),
-    const OnboardingPage(
-        child: Text("Title5",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold)),
-        color: Color(0xff37474f)),
-  ];
+  List<OnboardingPage> _pages = [];
+  bool _isInstantiated = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isInstantiated) {
+      _isInstantiated = true;
+      Size size = MediaQuery.of(context).size;
+      _pages = [
+        OnboardingPage(
+            child: SingleScreenDataWidget(
+                size: size,
+                imagePath: 'assets/p1.jpeg',
+                screenTitle: "Local news stories"),
+            color: Colors.blue),
+        OnboardingPage(
+            child: SingleScreenDataWidget(
+                size: size,
+                imagePath: 'assets/p2.jpeg',
+                screenTitle: "Choose your interests"),
+            color: Colors.pink.shade100),
+        OnboardingPage(
+            child: SingleScreenDataWidget(
+                size: size,
+                imagePath: 'assets/p3.jpeg',
+                screenTitle: "Drag and drop to move"),
+            color: Colors.blueGrey),
+      ];
+    }
     return AnimatedOnboarding(
       pages: _pages,
       pageController: pageController,
@@ -97,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         onPressed: () {
-          pageController.animateToPage(4,
-              curve: Curves.bounceIn, duration: const Duration(seconds: 1));
+          pageController.animateToPage(2,
+              curve: Curves.easeInBack, duration: const Duration(seconds: 1));
           debugPrint('Tapppppp');
         },
       ),
