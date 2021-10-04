@@ -1,5 +1,6 @@
 import 'package:animated_onboarding/animated_onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,15 +34,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -49,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  PageController pageController = PageController();
   final _pages = [
     const OnboardingPage(
         child: Text("Title1",
@@ -90,12 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return AnimatedOnboarding(
       pages: _pages,
-      pageController: PageController(),
+      pageController: pageController,
       onFinishedButtonTap: () {
         debugPrint("FINISHED!!");
       },
       topLeftChild: const Text(
-        "App Name",
+        "Storief",
         style: TextStyle(color: Colors.white, fontSize: 24),
       ),
       topRightChild: MaterialButton(
@@ -103,7 +96,11 @@ class _MyHomePageState extends State<MyHomePage> {
           "Skip",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        onPressed: () {},
+        onPressed: () {
+          pageController.animateToPage(4,
+              curve: Curves.bounceIn, duration: const Duration(seconds: 1));
+          debugPrint('Tapppppp');
+        },
       ),
     );
   }
